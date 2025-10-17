@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Recipes{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+</head>
+<body>
+<nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="{%- url 'recipes:home' -%}">Recipe Hub</a>
+    </div>
+    <div class="navbar-menu">
+        <div class="navbar-start">
+            <a class="navbar-item" href="{%- url 'recipes:home' -%}">Home</a>
+            {% if user.is_authenticated %}
+                <a class="navbar-item" href="{%- url 'recipes:create' -%}">Create recipe</a>
+            {% endif %}
+        </div>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    {% if user.is_authenticated %}
+                        <span class="mr-3">Hello, {{ user.get_short_name|default:user.username }}!</span>
+                        <a class="button is-light" href="{%- url 'logout' -%}">Logout</a>
+                    {% else %}
+                        <a class="button is-light" href="{%- url 'login' -%}">Log in</a>
+                        <a class="button is-link" href="{%- url 'users:signup' -%}">Sign up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<section class="section">
+    <div class="container">
+        {% for message in messages %}
+            <div class="notification is-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% block content %}{% endblock %}
+    </div>
+</section>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{% extends "recipes/base.html" %}
+
+{% block title %}Home - Recipes{% endblock %}
+
+{% block content %}
+<h1 class="title">Discover new recipes</h1>
+<div class="columns is-multiline">
+    {% for recipe in recipes %}
+        <div class="column is-one-third">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <p class="title is-4">
+                        <a href="{%- url 'recipes:detail' recipe.pk -%}">{{ recipe.title }}</a>
+                    </p>
+                    <p>{{ recipe.description|truncatewords:30 }}</p>
+                </div>
+            </div>
+        </div>
+    {% empty %}
+        <p>No recipes yet. Be the first to <a href="{%- url 'recipes:create' -%}">create one</a>!</p>
+    {% endfor %}
+</div>
+{% endblock %}
