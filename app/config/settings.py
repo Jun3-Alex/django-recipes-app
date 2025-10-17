@@ -4,6 +4,8 @@ from __future__ import annotations
 import os
 from pathlib import Path
 
+import dj_database_url
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "insecure-secret-key")
@@ -54,12 +56,35 @@ TEMPLATES = [
 WSGI_APPLICATION = "config.wsgi.application"
 ASGI_APPLICATION = "config.asgi.application"
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+DATABASE_URL = os.environ.get("DATABASE_URL")
+db_name = os.environ.get("DB_NAME")
+db_user = os.environ.get("DB_USER")
+db_password = os.environ.get("DB_PASSWORD")
+db_host = os.environ.get("DB_HOST")
+db_port = os.environ.get("DB_PORT", "5432")
+
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(DATABASE_URL, conn_max_age=600, ssl_require=False)
     }
-}
+elif all([db_name, db_user, db_password, db_host]):
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": db_name,
+            "USER": db_user,
+            "PASSWORD": db_password,
+            "HOST": db_host,
+            "PORT": db_port,
+        }
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
