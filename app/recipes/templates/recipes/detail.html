@@ -28,7 +28,7 @@
                 {% endfor %}
             </p>
             {% if user == recipe.author %}
-                <a class="button is-link mt-4" href="{%- url 'recipes:edit' recipe.pk -%}">Edit recipe</a>
+                <a class="button is-link mt-4" href="{% url 'recipes:edit' recipe.pk %}">Edit recipe</a>
             {% endif %}
         </div>
     </div>

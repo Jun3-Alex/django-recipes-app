@@ -15,14 +15,14 @@
                 </div>
                 <div class="card-content">
                     <p class="title is-4">
-                        <a href="{%- url 'recipes:detail' recipe.pk -%}">{{ recipe.title }}</a>
+                        <a href="{% url 'recipes:detail' recipe.pk %}">{{ recipe.title }}</a>
                     </p>
                     <p>{{ recipe.description|truncatewords:30 }}</p>
                 </div>
             </div>
         </div>
     {% empty %}
-        <p>No recipes yet. Be the first to <a href="{%- url 'recipes:create' -%}">create one</a>!</p>
+        <p>No recipes yet. Be the first to <a href="{% url 'recipes:create' %}">create one</a>!</p>
     {% endfor %}
 </div>
 {% endblock %}
