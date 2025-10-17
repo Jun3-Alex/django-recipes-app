@@ -37,4 +37,3 @@ volumes:
 
 networks:
   private:
-    internal: true
