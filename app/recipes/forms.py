@@ -15,6 +15,11 @@ MAX_IMAGE_SIZE_MB = 5
 class RecipeForm(forms.ModelForm):
     """Model form for creating and editing recipes."""
 
+    image = forms.FileField(
+        widget=forms.ClearableFileInput,
+        help_text="Upload a recipe photo.",
+    )
+
     categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects.all(),
         widget=forms.CheckboxSelectMultiple,
@@ -45,7 +50,11 @@ class RecipeForm(forms.ModelForm):
         if content_type not in ALLOWED_IMAGE_TYPES:
             raise ValidationError("Unsupported image type. Please upload JPEG, PNG, or GIF.")
 
+        size = getattr(image, "size", None)
+        if size is None:
+            return image
+
         max_bytes = MAX_IMAGE_SIZE_MB * 1024 * 1024
-        if image.size > max_bytes:
+        if size > max_bytes:
             raise ValidationError(f"Image file too large (>{MAX_IMAGE_SIZE_MB} MB).")
         return image

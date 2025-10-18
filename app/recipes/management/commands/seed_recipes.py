@@ -1,6 +1,8 @@
 """Management command to seed sample recipes."""
 from __future__ import annotations
 
+from pathlib import Path
+
 from django.contrib.auth import get_user_model
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
@@ -11,51 +13,54 @@ User = get_user_model()
 
 SAMPLE_RECIPES = [
     {
-        "title": "Classic Margherita Pizza",
-        "description": "A timeless Italian pizza with a crispy crust, tangy tomato sauce, and fresh mozzarella.",
-        "steps": "Prepare dough\nSpread sauce\nAdd cheese\nBake until golden",
+        "title": "Классическая пицца Маргарита",
+        "description": "Вневременная итальянская пицца с хрустящей корочкой, пикантным томатным соусом и свежей моцареллой.",
+        "steps": "Приготовить тесто\nНамазать соус\nДобавить сыр\nВыпекать до золотистой корочки",
         "cook_time_min": 30,
-        "ingredients": "Pizza dough\nTomato sauce\nFresh mozzarella\nFresh basil\nOlive oil",
-        "categories": ["Italian", "Vegetarian"],
+        "ingredients": "Тесто для пиццы\nТоматный соус\nСвежая моцарелла\nСвежий базилик\nОливковое масло",
+        "categories": ["Итальянская", "Вегетарианская"],
     },
     {
-        "title": "Lemon Herb Roasted Chicken",
-        "description": "Juicy roasted chicken infused with lemon and herbs, perfect for Sunday dinner.",
-        "steps": "Season chicken\nStuff with lemons\nRoast in oven",
+        "title": "Курица, запечённая с лимоном и травами",
+        "description": "Сочная запечённая курица с лимоном и ароматными травами — идеальна для воскресного ужина.",
+        "steps": "Приправить курицу\nНачинить лимонами\nЗапечь в духовке",
         "cook_time_min": 75,
-        "ingredients": "Whole chicken\nLemons\nGarlic\nRosemary\nThyme",
-        "categories": ["Dinner", "Comfort Food"],
+        "ingredients": "Целая курица\nЛимоны\nЧеснок\nРозмарин\nТимьян",
+        "categories": ["Ужин", "Домашняя еда"],
     },
     {
-        "title": "Spicy Thai Noodle Bowl",
-        "description": "Rice noodles tossed with a spicy peanut sauce and fresh vegetables.",
-        "steps": "Cook noodles\nPrepare sauce\nToss with veggies",
+        "title": "Острая тайская лапша",
+        "description": "Рисовая лапша, заправленная острым арахисовым соусом и свежими овощами.",
+        "steps": "Отварить лапшу\nПриготовить соус\nСмешать с овощами",
         "cook_time_min": 25,
-        "ingredients": "Rice noodles\nPeanut butter\nSoy sauce\nChili paste\nMixed vegetables",
-        "categories": ["Asian", "Spicy"],
+        "ingredients": "Рисовая лапша\nАрахисовое масло\nСоевый соус\nЧили-паста\nОвощная смесь",
+        "categories": ["Азиатская", "Острая"],
     },
     {
-        "title": "Avocado Toast with Poached Eggs",
-        "description": "Creamy avocado toast topped with perfectly poached eggs for a hearty breakfast.",
-        "steps": "Toast bread\nMash avocado\nPoach eggs\nAssemble",
+        "title": "Тост с авокадо и пашот",
+        "description": "Кремовый тост с авокадо, украшенный идеально приготовленными яйцами пашот — сытный завтрак.",
+        "steps": "Поджарить хлеб\nРазмять авокадо\nСделать яйца пашот\nСобрать блюдо",
         "cook_time_min": 15,
-        "ingredients": "Bread\nAvocados\nEggs\nLemon juice\nChili flakes",
-        "categories": ["Breakfast", "Quick"],
+        "ingredients": "Хлеб\nАвокадо\nЯйца\nЛимонный сок\nПерец чили (flakes)",
+        "categories": ["Завтрак", "Быстрое блюдо"],
     },
     {
-        "title": "Chocolate Lava Cake",
-        "description": "Decadent molten chocolate cakes with gooey centers.",
-        "steps": "Prepare batter\nFill ramekins\nBake briefly",
+        "title": "Шоколадный фондан",
+        "description": "Шоколадные мини-кексы с жидкой сердцевиной — невероятно вкусный десерт.",
+        "steps": "Приготовить тесто\nРазлить по формочкам\nКоротко выпечь",
         "cook_time_min": 20,
-        "ingredients": "Dark chocolate\nButter\nSugar\nEggs\nFlour",
-        "categories": ["Dessert", "Chocolate"],
+        "ingredients": "Тёмный шоколад\nМасло\nСахар\nЯйца\nМука",
+        "categories": ["Десерт", "Шоколад"],
     },
 ]
 
-PLACEHOLDER_IMAGE = (
-    b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01\x08\x02\x00\x00\x00\x90wS\xde"
-    b"\x00\x00\x00\x0cIDATx\x9cc```\x00\x00\x00\x04\x00\x01\x0b\x0e\x02\xb5\x00\x00\x00\x00IEND\xaeB`\x82"
-)
+IMAGE_NAMES = [
+    "classic_margherita.png",
+    "lemon_herb_roasted_chicken.png",
+    "spicy_thai_noodle_bowl.png",
+    "avocado_toast_poached_eggs.png",
+    "chocolate_lava_cake.png",
+]
 
 
 class Command(BaseCommand):
@@ -67,7 +72,9 @@ class Command(BaseCommand):
             user.set_password("demo1234")
             user.save()
 
-        for recipe_data in SAMPLE_RECIPES:
+        seed_images_dir = Path(__file__).resolve().parent / "seed_images"
+
+        for image_name, recipe_data in zip(IMAGE_NAMES, SAMPLE_RECIPES):
             category_names = recipe_data["categories"]
             categories = [
                 Category.objects.get_or_create(name=name, defaults={"slug": name.lower().replace(" ", "-")})[0]
@@ -84,9 +91,11 @@ class Command(BaseCommand):
                     "ingredients": recipe_data["ingredients"],
                 },
             )
-
             if created or not recipe.image:
-                recipe.image.save("placeholder.png", ContentFile(PLACEHOLDER_IMAGE), save=False)
+                image_path = seed_images_dir / image_name
+                if image_path.exists():
+                    with image_path.open("rb") as image_file:
+                        recipe.image.save(image_name, ContentFile(image_file.read()), save=False)
             recipe.author = user
             recipe.description = recipe_data["description"]
             recipe.steps = recipe_data["steps"]
