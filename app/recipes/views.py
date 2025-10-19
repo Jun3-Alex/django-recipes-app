@@ -21,10 +21,10 @@ class HomeView(ListView):
 
     def get_queryset(self):  # type: ignore[override]
         count = Recipe.objects.count()
-        if count <= 5:
+        if count <= 4:
             return Recipe.objects.all()
-        # Use database-level random ordering limited to five items for efficiency.
-        return Recipe.objects.order_by("?")[:5]
+        # Use database-level random ordering limited to four items for efficiency.
+        return Recipe.objects.order_by("?")[:4]
 
 
 class RecipeDetailView(DetailView):

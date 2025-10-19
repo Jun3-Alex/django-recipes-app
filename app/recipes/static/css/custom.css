@@ -1,0 +1,69 @@
+/* Custom CSS */
+
+/* Background image for all pages - replace with your own image */
+body {
+    background-image: url('../images/background.png');
+    background-color: #f5f5f5; /* A fallback color */
+}
+
+/* More harmonious header color */
+.navbar.is-primary {
+    background-color: #f5f5dc; /* A warm, neutral beige color */
+    border-bottom: 1px solid #e0e0d1;
+}
+
+.navbar.is-primary .navbar-item,
+.navbar.is-primary .navbar-item a:not(.button) {
+    color: #363636;
+    font-size: 1.1rem;
+}
+
+.navbar.is-primary .navbar-item a:not(.button):hover {
+    background-color: #e5e5e5;
+    color: #363636;
+}
+
+
+/* Recipe card styling to match the image */
+.card {
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card .card-image img {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.card .card-content {
+    padding: 1.5rem;
+}
+
+.card .title.is-4 {
+    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.card .title.is-4 a {
+    color: #363636;
+}
+
+.card .title.is-4 a:hover {
+    text-decoration: underline;
+}
+
+/* Center the main title */
+h1.title {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.section {
+    background-color: transparent;
+}

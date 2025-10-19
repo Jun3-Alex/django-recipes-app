@@ -3,10 +3,10 @@
 {% block title %}Home - Recipes{% endblock %}
 
 {% block content %}
-<h1 class="title">Discover new recipes</h1>
+<h1 class="title">Откройте для себя новые рецепты</h1>
 <div class="columns is-multiline">
     {% for recipe in recipes %}
-        <div class="column is-one-third">
+        <div class="column is-half">
             <div class="card">
                 <div class="card-image">
                     <figure class="image is-4by3">
@@ -22,7 +22,7 @@
             </div>
         </div>
     {% empty %}
-        <p>No recipes yet. Be the first to <a href="{% url 'recipes:create' %}">create one</a>!</p>
+        <p>Пока нет рецептов. Будьте первым, кто <a href="{% url 'recipes:create' %}">создаст один</a>!</p>
     {% endfor %}
 </div>
 {% endblock %}
