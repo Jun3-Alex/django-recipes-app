@@ -1,25 +1,90 @@
 /* Custom CSS */
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 /* Background image for all pages - replace with your own image */
 body {
     background-color: #f5f5f5; /* A fallback color */
+    font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+    color: #2d2d2d;
 }
 
-/* More harmonious header color */
+/* Sleek dark header */
 .navbar.is-primary {
-    background-color: #f5f5dc; /* A warm, neutral beige color */
-    border-bottom: 1px solid #e0e0d1;
+    background-color: #0b0b0b;
+    border-bottom: 1px solid #1f1f1f;
 }
 
-.navbar.is-primary .navbar-item,
-.navbar.is-primary .navbar-item a:not(.button) {
-    color: #363636;
+.navbar.is-primary .navbar-brand {
+    background-color: #f5f5dc !important;
+}
+
+.navbar.is-primary .navbar-brand:focus,
+.navbar.is-primary .navbar-brand:hover {
+    background-color: #e8dfc7 !important;
+}
+
+.navbar.is-primary .navbar-brand,
+.navbar.is-primary .navbar-brand > .navbar-item {
+    background-color: transparent !important;
+    color: #f5f5dc;
     font-size: 1.1rem;
+    font-weight: 600;
 }
 
-.navbar.is-primary .navbar-item a:not(.button):hover {
-    background-color: #e5e5e5;
-    color: #363636;
+.navbar.is-primary .navbar-brand > .navbar-item:focus,
+.navbar.is-primary .navbar-brand > .navbar-item:hover {
+    color: #ffffff;
+    background-color: #1a1a1a !important;
+}
+
+.navbar.is-primary .navbar-menu .navbar-item,
+.navbar.is-primary .navbar-menu .navbar-item a:not(.button),
+.navbar.is-primary .navbar-menu .navbar-link {
+    color: #f5f5dc;
+    background-color: transparent;
+    font-size: 1.05rem;
+}
+
+.navbar.is-primary .navbar-menu .navbar-item:focus,
+.navbar.is-primary .navbar-menu .navbar-item:hover,
+.navbar.is-primary .navbar-menu .navbar-item a:not(.button):focus,
+.navbar.is-primary .navbar-menu .navbar-item a:not(.button):hover,
+.navbar.is-primary .navbar-menu .navbar-link:focus,
+.navbar.is-primary .navbar-menu .navbar-link:hover {
+    color: #ffffff;
+    background-color: #1a1a1a;
+}
+
+.navbar.is-primary .buttons .button.is-light {
+    background-color: #f5f5dc;
+    color: #111111;
+    border-color: transparent;
+}
+
+.navbar.is-primary .buttons .button.is-light:focus,
+.navbar.is-primary .buttons .button.is-light:hover {
+    background-color: #e6dfc7;
+    color: #000000;
+}
+
+.navbar.is-primary .buttons .button.is-link {
+    background-color: #1f4aff;
+    border-color: #1f4aff;
+    color: #f5f5dc;
+}
+
+.navbar.is-primary .buttons .button.is-link:focus,
+.navbar.is-primary .buttons .button.is-link:hover {
+    background-color: #1638bf;
+    border-color: #1638bf;
+    color: #ffffff;
+}
+
+h1.title,
+h2.subtitle,
+.card .title.is-4 {
+    font-family: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
 }
 
 
@@ -65,4 +130,22 @@ h1.title {
 
 .section {
     background-color: transparent;
+}
+
+
+/* Dark footer styling */
+.footer {
+    background-color: #0b0b0b;
+    color: #f5f5dc;
+    padding: 2rem 1.5rem;
+}
+
+.footer a {
+    color: #f5f5dc;
+    font-weight: 600;
+}
+
+.footer a:hover,
+.footer a:focus {
+    color: #ffffff;
 }
