@@ -41,7 +41,7 @@ class RecipeAuthorRequiredMixin(UserPassesTestMixin):
         return recipe.author == self.request.user
 
     def handle_no_permission(self):  # type: ignore[override]
-        messages.error(self.request, "You do not have permission to modify this recipe.")
+        messages.error(self.request, "У вас нет прав для изменения этого рецепта.")
         return redirect("recipes:detail", pk=self.get_object().pk)  # type: ignore[attr-defined]
 
 
@@ -51,7 +51,7 @@ class RecipeCreateView(LoginRequiredMixin, View):
 
     def get(self, request: HttpRequest) -> HttpResponse:
         form = self.form_class()
-        return render(request, self.template_name, {"form": form, "title": "Create recipe"})
+        return render(request, self.template_name, {"form": form, "title": "Создать рецепт"})
 
     def post(self, request: HttpRequest) -> HttpResponse:
         form = self.form_class(request.POST, request.FILES)
@@ -60,9 +60,9 @@ class RecipeCreateView(LoginRequiredMixin, View):
             recipe.author = request.user
             recipe.save()
             form.save_m2m()
-            messages.success(request, "Recipe created successfully!")
+            messages.success(request, "Рецепт успешно создан!")
             return redirect("recipes:detail", pk=recipe.pk)
-        return render(request, self.template_name, {"form": form, "title": "Create recipe"})
+        return render(request, self.template_name, {"form": form, "title": "Создать рецепт"})
 
 
 class RecipeUpdateView(LoginRequiredMixin, RecipeAuthorRequiredMixin, DetailView):
@@ -73,16 +73,16 @@ class RecipeUpdateView(LoginRequiredMixin, RecipeAuthorRequiredMixin, DetailView
     def get(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         recipe = self.get_object()
         form = self.form_class(instance=recipe)
-        return render(request, self.template_name, {"form": form, "title": "Edit recipe", "recipe": recipe})
+        return render(request, self.template_name, {"form": form, "title": "Редактировать рецепт", "recipe": recipe})
 
     def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         recipe = self.get_object()
         form = self.form_class(request.POST, request.FILES, instance=recipe)
         if form.is_valid():
             form.save()
-            messages.success(request, "Recipe updated successfully!")
+            messages.success(request, "Рецепт успешно обновлён!")
             return redirect("recipes:detail", pk=recipe.pk)
-        return render(request, self.template_name, {"form": form, "title": "Edit recipe", "recipe": recipe})
+        return render(request, self.template_name, {"form": form, "title": "Редактировать рецепт", "recipe": recipe})
 
 
 def random_recipe_json(request: HttpRequest) -> JsonResponse:
@@ -90,7 +90,7 @@ def random_recipe_json(request: HttpRequest) -> JsonResponse:
 
     recipe = Recipe.objects.order_by("?").first()
     if not recipe:
-        return JsonResponse({"error": "No recipes available"}, status=404)
+        return JsonResponse({"error": "Рецепты отсутствуют"}, status=404)
     return JsonResponse(
         {
             "id": recipe.pk,
