@@ -2,7 +2,7 @@
 
 /* Background image for all pages - replace with your own image */
 body {
-    background-image: url('../images/background.png');
+    background-image: url('images/background.png');
     background-color: #f5f5f5; /* A fallback color */
 }
 
